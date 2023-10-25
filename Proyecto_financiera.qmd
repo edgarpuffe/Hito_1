@@ -226,3 +226,180 @@ Imagen 4 : Clasificación de riesgo Cencosud S.A
 Fuente : [www.cencosud.com](www.cencosud.com)
 
 Para el activo ENEL CHILE S.A, se determinó destinar un menor porcentaje que los otros activos en el portafolio, debido a que esta empresa ha tenido ciertas dificultades en el último tiempo. En primer lugar, se puede identificar la mega sequía que se ha vivido en los últimos años, lo que complica la obtención de energía mediante las hidroeléctricas. Esto último, luego de el transcurso del año 2023, se ha visto mejorado por el fenómeno del niño, el cual ha producido una mayor cantidad de precipitaciones generando con ello la recuperación de embalses de acumulación de agua. Lo anterior, beneficia a esta empresa para poder producir energía, pero cabe mencionar que sigue siendo una empresa que representa un mayor riesgo para los inversionistas debido a que se ve afectada por fenómenos naturales incontrolables por el ser humano. Es por este motivo, que parece razonable destinar un porcentaje más cauto con el fin de rentabilizar de mejor manera la inversión controlando de mejor manera la exposición al riesgo.
+
+### Aplicación Black-Scholes
+
+En primer lugar es pertinente brindar un breve contexto sobre el modelo que se analizará a continuación y sus posibles utilizaciones El modelo de black - scholes fue desarollado por Fischer Black, Myron Scholes y Robert Merton en los años 1970 contribuyendo con al ámbito financiero. Estos personajes, lograron crear una herramienta que logra gestionar los posibles riesgos a los que se ve expuesta una opción financiera al igual que permitir valorar estas mismas. Esto logró revolucionar el mundo de las inversiones debido a que permitía que los inversionistas pudiesen tomar decisiones con mayor información y por ende buscar la forma de diversificar de mejor manera los riesgos asociados a cualquier movimiento financiero.
+
+Antes de aplicar el modelo de Black-Scholes, se requiere de la obtención de datos. Para esto, se utilizó la biblioteca de Yahoo finance en Python con el fin de determinar los valores necesarios, para posteriormente, aplicarlos en la formula y obtener la valoración de la opción.
+
+```{python}
+
+!pip install yfinance
+import yfinance as yf
+
+# Obtención del precio actual del activo subyacente : 
+
+ticker = "CENCOSUD.SN"
+stock = yf.Ticker(ticker)
+current_price = stock.history(period="1d")["Close"][0]
+print(f"Precio actual de {ticker}: {current_price}")
+
+# Obtención de la volatilidad del activo subyacente : 
+
+historical_data = stock.history(period="1y")
+daily_returns = historical_data["Close"].pct_change().dropna()
+annualized_volatility = daily_returns.std() * (252**0.5)
+print(f"Volatilidad anualizada: {annualized_volatility}")
+
+
+# Para determinar la fecha de vencimiento de la primera opción disponible : 
+
+options_expirations = stock.options
+chosen_expiration = options_expirations[0]
+options_data = stock.option_chain(chosen_expiration)
+
+# Esto te dará un DataFrame con opciones de compra (calls) y de venta (puts)
+calls = options_data.calls
+puts = options_data.puts
+
+print ("Valores obtenidos : ")
+print(f"Precio actual de {ticker}: {current_price}")
+print(f"Volatilidad anualizada: {annualized_volatility}")
+
+
+
+```
+
+![](photos/Captura%20de%20pantalla%202023-10-19%20a%20la(s)%2016.32.06.png){fig-align="center"}
+
+Imagen 1 : Formulación del modelo Black -Scholes
+
+```{r}
+# Datos de entrada
+K <- 100     # Precio de ejercicio (strike price)
+r <- 0.02    # Tasa de interés libre de riesgo
+sigma <- 0.2 # Volatilidad del activo subyacente
+T <- 0.5     # Tiempo hasta la expiración (en años)
+S0 <- 102    # Precio actual del activo subyacente
+
+# Calcula d1 y d2
+d1 <- (log(S0 / K) + (r + (sigma^2) / 2) * T) / (sigma * sqrt(T))
+d2 <- d1 - sigma * sqrt(T)
+
+# Calcula el precio de la opción call
+call_price <- S0 * pnorm(d1) - K * exp(-r * T) * pnorm(d2)
+
+cat("El precio de la opción call es:", round(call_price, 2), "\n")
+
+```
+
+En la imagen nº 1 se logra apreciar la fórmula que permite calcular el valor de una opción, en donde se consideran los siguientes factores :
+
+-   Precio de ejercicio (K)
+
+-   Tasa libre de riesgo (r) --\> (Usaremos la tasa de bonos del gobierno a corto plazo)
+
+-   Volatilidad del activo subyacente (sigma)
+
+-   Tiempo hasta la expiración, madurez (T)
+
+-   Precio actual del activo subyacente (S0)
+
+/// Se valoriza correctamente una opción de compra del activo principal definido en el Hito 1, utilizando /// el modelo de Black-Scholes continuo apoyándose de un código replicable que compute el modelo. /// Se apoya de literatura para complementar su valorización.
+
+### Modelo Adicional de valorizacion
+
+//FALTA RELACIONAR ESTO A UN ARTICULO INTELECTUAL
+
+Ahora bien, considerando el modelo black-scholes que utilizamos anteriormente para valorizar la opción de compra, es necesario determinar otro método para realizar esto mismo y lograr generar una comparación. Para ello, se decidió utilizar el modelo binomial, el cúal permite valorizar opciones dividiendo el tiempo hasta el punto de expiración en dos partes iguales. La primera de ella, es el valor de la opción en estado up y la otra en estado down. Estos dos estados tienen relación con la representación de un resultado favorable como desfavorable de la inversión. Cabe destacar que lo anteriormente mencionado, debe ser llevado a cabo mediante la utilización de probabilidad de ocurrencia, con el fin de otorgar una mayor fiabilidad al resultado obtenido. Este modelo, valoriza la opción en función de dos posibles movimientos y se calcula de manera retroactiva es decir desde la fecha de expiración hacia atrás, con el fin de determinar el valor actual de la opción. Lo anterior, permite analizar distintas combinaciones de casos posibles, con el objetivo de obtener valores para opciones que se quieran valorar a lo largo de un tiempo determinado.
+
+Modelo Binomial (imagen) :
+
+![](photos/Captura%20de%20pantalla%202023-10-19%20a%20la(s)%2018.05.55.png){fig-align="center" width="483"}
+
+Imagen 2 : Procedimiento modelo binomial
+
+Fuente : Apuntes de clases (Profesor : Sebastian Cea)
+
+Ahora bien, continuando con la explicación que se indicó anteriormente es necesario comprender que la imagen de referencia presentada muestra la evaluación de una opción de compra (CALL). Para realizar ello, se requiere definir un precio de ejercicio (K) y limitarlo a un máximo valor dado por {0, Sn -K}. Posteriormente se procede a traer a valor presente descontado a una tasa de descuento R quedando con esto :
+
+![](photos/Captura%20de%20pantalla%202023-10-19%20a%20la(s)%2018.17.20.png){fig-align="center"}
+
+Imagen 3 : Valor esperado de la opción
+
+Fuente : Apuntes de clases (Profesor : Sebastian Cea)
+
+El gran problema que tiene este modelo de valorización, es que no considera la exposición al riesgo, lo que deja de lado una variable de gran importantancia al momento de el calculo de cualquier activo financiero. (Modelo se define como "riesgo neutral" )
+
+Se explica junto con descripcion matemática (fórmulas) correcta un modelo alternativo para valorizar la accion haciendo revisión de literatura cientifica con tal de hacer una referencia a un artículo del modelo.
+
+### Aplicacion modelo adicional
+
+Ahora bien, luego de la explicación del modelo binomial para la valorización de opciones, se realizó la implementación de este, en un código que permite realizar el cálculo del valor de la opción en base a la información provista. De esta manera se buscará, posteriormente, realizar la comparación de ambos modelos utilizado, con el fin de identificar una similitud o bien diferencias acorde a las variables que considera cada uno de ellos para esta valorización. Cabe destacar que ningún modelo otorga una precisión al 100% debido a que se dejan de lado factores y se asumen supuestos en cada uno de estos.
+
+Se aplica el modelo alternativo apoyandose de un código replicable que computa el modelo.
+
+```{r}
+binomial_option_pricing <- function(S0, K, r, T, n, option_type = "call") {
+  # S0: Precio actual del activo subyacente
+  # K: Precio de ejercicio de la opción
+  # r: Tasa libre de riesgo
+  # T: Tiempo hasta la expiración de la opción (en años)
+  # n: Número de pasos en el modelo binomial
+  # option_type: Tipo de opción ("call" para una opción de compra, "put" para una opción de venta)
+
+  deltaT <- T / n
+  u <- exp(r * deltaT)
+  d <- 1 / u
+  p <- (exp(r * deltaT) - d) / (u - d)
+
+  # Construir un árbol binomial de precios
+  price_tree <- matrix(0, n + 1, n + 1)
+  for (j in 1:(n + 1)) {
+    price_tree[1, j] <- S0 * u ^ (n - j) * d ^ (j - 1)
+  }
+  
+  for (i in 2:(n + 1)) {
+    for (j in 1:i) {
+      price_tree[i, j] <- S0 * u ^ (n - i + j - 1) * d ^ (i - j)
+    }
+  }
+  
+  # Valorar la opción
+  option_tree <- matrix(0, n + 1, n + 1)
+  if (option_type == "call") {
+    option_tree[n + 1,] <- pmax(0, price_tree[n + 1,] - K)
+  } else if (option_type == "put") {
+    option_tree[n + 1,] <- pmax(0, K - price_tree[n + 1,])
+  }
+
+  for (i in n:1) {
+    for (j in 1:i) {
+      option_tree[i, j] <- exp(-r * deltaT) * (p * option_tree[i + 1, j] + (1 - p) * option_tree[i + 1, j + 1])
+    }
+  }
+
+  return(option_tree[1, 1])
+}
+
+# Ejemplo de uso:
+K <- 100     # Precio de ejercicio (strike price)
+r <- 0.02    # Tasa de interés libre de riesgo
+T <- 0.5     # Tiempo hasta la expiración (en años)
+S0 <- 102       # Tiempo hasta la expiración de la opción (1 año)
+n <- 100    # Número de pasos en el modelo binomial
+option_type <- "call"  # Opción de compra
+
+option_price <- binomial_option_pricing(S0, K, r, T, n, option_type)
+
+cat(paste("Precio de la opción: ", formatC(option_price, digits = 2), "\n"))
+```
+
+### Análisis de contraste de ambos modelos
+
+//FALTA ANÁLISIS EN BASE A LAS SIMILITUDES Y DIFERENCIAS DE LOS RESULTADOS
+
+Se realiza una comparación de los resultados de ambos modelos de valorización explicando sus similitudes y diferencias.
+
+De acuerdo a la información provista anteriormente, y los resultados relacionados a la valorización de la opción de Cencosud S.A es posible identificar una diferencia en el valor obtenido por ambos modelos. En primer lugar se tiene que el valor obtenido por el modelo de black-scholes es de : "XXX", por otro lado en base a la respuesta generada por el modelo binomial se tiene el valor de : "XXX". Es posible identificar una diferencia entre los valores obtenidos y esto se debe a diversos factores que mencionaré a continuación. En primer lugar se puede identificar que las características de la opción puede hacer que varie el monto de valorización. Estas características se pueden considerar tal como la volatilidad, fecha de vencimiento, precio de ejercicio entre otros factores influyentes. Por otro lado, esta diferencia radica en el nivel de precisión que se logre obtener con cada modelo. Si bien, ambos otorgan una especulación del valor de la opción, al ser estos un modelo, se intenta determinar un valor razonablemente acertado pero no es viable esperar un 100% de confianza al considerar para los cálculos, diferentes supuestos. Por un lado, se tiene el modelo binomial que logra otorgar una mayor precisión a medida que aumenta el número de pasos utilizados y por otro lado se tiene el modelo de black-scholes que otorga una respuesta en base a los datos de entrada provistos por el usuario.
