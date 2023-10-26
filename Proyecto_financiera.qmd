@@ -265,7 +265,7 @@ print(f"Volatilidad anualizada: {annualized_volatility}")
 
 ```
 
-![](photos/Captura%20de%20pantalla%202023-10-19%20a%20la(s)%2016.32.06.png){fig-align="center"}
+![](Fotos hito 2/Captura de pantalla 2023-10-25 a la(s) 21.22.43.png){fig-align="center"}
 
 Imagen 1 : Formulación del modelo Black -Scholes
 
@@ -308,7 +308,7 @@ Para la tasa libre de riesgo se utilizó la tasa de los bonos entregada por el b
 
 Es importante considerar que los valores del precio del activo subyacente, la igual que la volatilidad de este, varían diariamente por lo que se debe ir actualizando este valor en el modelo black-scholes presentado anteriormente en python, con el fin de obtener el valor actualizado de la valorización en la fecha que se realice el cálculo.
 
-![](Captura%20de%20pantalla%202023-10-25%20a%20la(s)%2008.30.57.png){fig-align="center"}
+![](Fotos hito 2/Captura de pantalla 2023-10-25 a la(s) 21.22.51.png){fig-align="center"}
 
 Imagen 2 : Banco central tasa de bonos
 
@@ -320,13 +320,11 @@ https://www.ehu.eus/cuadernosdegestion/documentos/426.pdf
 
 ### Modelo Adicional de valorizacion
 
-//FALTA RELACIONAR ESTO A UN ARTICULO INTELECTUAL
-
 Ahora bien, considerando el modelo black-scholes que utilizamos anteriormente para valorizar la opción de compra, es necesario determinar otro método para realizar esto mismo y lograr generar una comparación. Para ello, se decidió utilizar el modelo binomial, el cúal permite valorizar opciones dividiendo el tiempo hasta el punto de expiración en dos partes iguales. La primera de ella, es el valor de la opción en estado up y la otra en estado down. Estos dos estados tienen relación con la representación de un resultado favorable como desfavorable de la inversión. Cabe destacar que lo anteriormente mencionado, debe ser llevado a cabo mediante la utilización de probabilidad de ocurrencia, con el fin de otorgar una mayor fiabilidad al resultado obtenido. Este modelo, valoriza la opción en función de dos posibles movimientos y se calcula de manera retroactiva es decir desde la fecha de expiración hacia atrás, con el fin de determinar el valor actual de la opción. Lo anterior, permite analizar distintas combinaciones de casos posibles, con el objetivo de obtener valores para opciones que se quieran valorar a lo largo de un tiempo determinado.
 
 Modelo Binomial (imagen) :
 
-![](photos/Captura%20de%20pantalla%202023-10-19%20a%20la(s)%2018.05.55.png){fig-align="center" width="483"}
+![](Fotos hito 2/Captura de pantalla 2023-10-25 a la(s) 21.23.03.png){fig-align="center"}
 
 Imagen 2 : Procedimiento modelo binomial
 
@@ -334,13 +332,13 @@ Fuente : Apuntes de clases (Profesor : Sebastian Cea)
 
 Ahora bien, continuando con la explicación que se indicó anteriormente es necesario comprender que la imagen de referencia presentada muestra la evaluación de una opción de compra (CALL). Para realizar ello, se requiere definir un precio de ejercicio (K) y limitarlo a un máximo valor dado por {0, Sn -K}. En la expresión anteriormente expuesta, se indica el precio de ejercicio K que interactuará directamente en base al valor del activo subyacente. Posteriormente se procede a traer a valor presente descontado a una tasa de descuento R quedando con esto :
 
-![](photos/Captura%20de%20pantalla%202023-10-19%20a%20la(s)%2018.17.20.png){fig-align="center"}
+![](Fotos hito 2/Captura de pantalla 2023-10-25 a la(s) 21.23.11.png){fig-align="center"}
 
 Imagen 3 : Valor esperado de la opción
 
 Fuente : Apuntes de clases (Profesor : Sebastian Cea)
 
-El gran problema que tiene este modelo de valorización, es que no considera la exposición al riesgo, lo que deja de lado una variable de gran importantancia al momento de el calculo de cualquier activo financiero. (Modelo se define como "riesgo neutral" )
+El gran problema que tiene este modelo de valorización, es que no considera la exposición al riesgo, lo que deja de lado una variable de gran importantancia al momento de el calculo de cualquier activo financiero. (Modelo se define como "riesgo neutral")
 
 La elección de los modelos se realizó basado en información cientifica encontrada en la web. Uno de los articulos utilizados es el paper escrito por "GERARDO ARREGUI AYASTUY" denominado "Los Modelos Implícitos de Valoración de Opciones" que habla sobre las diferentes formas que se tienen para valorizar el precio de una opción y los contras que tienen ciertos modelos.
 
