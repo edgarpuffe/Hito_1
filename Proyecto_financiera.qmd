@@ -265,7 +265,7 @@ print(f"Volatilidad anualizada: {annualized_volatility}")
 
 ```
 
-![](Fotos hito 2/Captura de pantalla 2023-10-25 a la(s) 21.22.43.png){fig-align="center"}
+![](Fotos%20hito%202/Captura%20de%20pantalla%202023-10-25%20a%20la(s)%2021.22.43.png){fig-align="center"}
 
 Imagen 1 : Formulación del modelo Black -Scholes
 
@@ -308,7 +308,7 @@ Para la tasa libre de riesgo se utilizó la tasa de los bonos entregada por el b
 
 Es importante considerar que los valores del precio del activo subyacente, la igual que la volatilidad de este, varían diariamente por lo que se debe ir actualizando este valor en el modelo black-scholes presentado anteriormente en python, con el fin de obtener el valor actualizado de la valorización en la fecha que se realice el cálculo.
 
-![](Fotos hito 2/Captura de pantalla 2023-10-25 a la(s) 21.22.51.png){fig-align="center"}
+![](Fotos%20hito%202/Captura%20de%20pantalla%202023-10-25%20a%20la(s)%2021.22.51.png){fig-align="center"}
 
 Imagen 2 : Banco central tasa de bonos
 
@@ -324,7 +324,7 @@ Ahora bien, considerando el modelo black-scholes que utilizamos anteriormente pa
 
 Modelo Binomial (imagen) :
 
-![](Fotos hito 2/Captura de pantalla 2023-10-25 a la(s) 21.23.03.png){fig-align="center"}
+![](Fotos%20hito%202/Captura%20de%20pantalla%202023-10-25%20a%20la(s)%2021.23.03.png){fig-align="center"}
 
 Imagen 2 : Procedimiento modelo binomial
 
@@ -332,7 +332,7 @@ Fuente : Apuntes de clases (Profesor : Sebastian Cea)
 
 Ahora bien, continuando con la explicación que se indicó anteriormente es necesario comprender que la imagen de referencia presentada muestra la evaluación de una opción de compra (CALL). Para realizar ello, se requiere definir un precio de ejercicio (K) y limitarlo a un máximo valor dado por {0, Sn -K}. En la expresión anteriormente expuesta, se indica el precio de ejercicio K que interactuará directamente en base al valor del activo subyacente. Posteriormente se procede a traer a valor presente descontado a una tasa de descuento R quedando con esto :
 
-![](Fotos hito 2/Captura de pantalla 2023-10-25 a la(s) 21.23.11.png){fig-align="center"}
+![](Fotos%20hito%202/Captura%20de%20pantalla%202023-10-25%20a%20la(s)%2021.23.11.png){fig-align="center"}
 
 Imagen 3 : Valor esperado de la opción
 
@@ -405,10 +405,26 @@ De acuerdo a la información provista anteriormente, y los resultados relacionad
 
 ### Reporte Grupal: Caso Administración
 
-Se eligen uno de los siguientes casos con tal de replicar y responder sus preguntas de acuerdo al activo principal elegido:
-
--   Caso Administración de Capital de Trabajo de Keafer Manufacturing de la página 822 del ROSS.
-
--   Caso Administración de Efectivo de Richmond Corporation de la página 845 del ROSS.
-
 -   Caso Administración de Efectivo de Braam Industries de la página 874 del ROSS.
+
+De acuerdo al caso de administración de efectivo de Braam Industries presente en el libro de ROSS, se procedió a resolver este, en base a los datos del activo financiero Banco de Chile. Para esto, fue necesario comprender y determinar ciertos valores que se observan en la imagen del archivo excel que se presenta a continuación.
+
+![](Fotos hito 2/Captura de pantalla 2023-10-26 a la(s) 19.43.53.png){fig-align="center"}
+
+Imagen 4 : Resolución problema en excel
+
+En primer lugar se tienen las ventas anuales, para ello fue necesario investigar en la página del banco, cúal era el valor de estas, logrando obtener para el año 2022 un monto de : \$55.255.362. Posterior a ello se tuvo que indagar con respecto a la tasa de incumplimiento o morosidad, obteniendo una tasa de : 1,32% (Fuente : CMF). Posterior a ello, se tuvo que realizar el cálculo para determinar los costos administrativos utilizando la fórmula : Total gastos de administración / Ventas anuales (en %) logrando el valor de : 0,64%. Finalmente, con estos datos y otros provistos por enunciado, se logró determinar el VPN (valor presente neto) con el fin de determinar cúal opción de las 3 disponibles, es la que otorga el mayor valor. Estas opciones se determinaron en base a los datos propuestos actualmente y luego con estos, a través de la regla de tres, se fue rellenando la tabla hasta obtener lo necesario para realizar el estudio en cuestión. Con la realización de estos cálculos, se logró determinar que la opción que maximiza el VPN es la opción 1 obteniendo un monto de : \$13.426.115 que se encuentra por sobre las otras 2 opciones disponibles.
+
+Ahora bien, respondiendo a la primera pregunta propuesta por el libro de Ross, la política de crédito que debiese adoptar la empresa es la opción 1, debido a que esta es la que representa un mayor beneficio para la empresa.
+
+Continuando con las preguntas, ahora se tiene que estudiar si es factible que la opción 2 tenga tasa de incumplimiento y costos administrativos mayor a los de la opción 3. Esto, en base a los resultados provistos para el activo estudiado "Banco de Chile" es factible y puede deberse a varios factores tales como:
+
+-   Mejores prácticas administrativas : La reducción en los costos administrativos podría demostrar que la Opción 2 tiene procedimientos administrativos mejor optimizados esto se logra a través de la automatización de tareas y utilización de nuevas tecnologías.
+
+-   Economías de escala : En la teoría, se puede tener que la opción 2 tenga ventas similares o menores que la opción 3, esto podría lograrse en base a la optimización de procesos en las operaciones con el fin de aprovechar el concepto de economias de escala.
+
+Se puede considerar viable que una opción tenga niveles más bajos en cuanto a tasas de incumplimiento y costos administrativos en relación con otra alternativa, basándose en las políticas internas, estrategias de gestión y características específicas del mercado objetivo. Se debe realizar un análisis profundo de las políticas y prácticas de cada opción con el fin de comprender plenamente las razones detrás de estas diferencias.
+
+Fuente : https://portales.bancochile.cl/uploads/000/045/680/42b47795-da00-472d-93c7-323ce640b28f/original/Memoria_BCH_2022_interactiva-Optimizada.pdf
+
+Fuente : https://www.cmfchile.cl/portal/estadisticas/617/w3-propertyvalue-28914.html
