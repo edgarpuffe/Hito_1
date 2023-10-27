@@ -235,60 +235,55 @@ En primer lugar es pertinente brindar un breve contexto sobre el modelo que se a
 
 Antes de aplicar el modelo de Black-Scholes, se requiere de la obtención de datos. Para esto, se utilizó la biblioteca de Yahoo finance en Python con el fin de determinar los valores necesarios, para posteriormente, aplicarlos en la formula y obtener la valoración de la opción.
 
-```{python}
+```{r}
+# Instalar y cargar la biblioteca 'quantmod'
+if (!require(quantmod)) {
+  install.packages("quantmod")
+}
+library(quantmod)
 
-!pip install yfinance
-import yfinance as yf
+# Obtención del precio actual del activo subyacente:
+ticker <- "CENCOSUD.SN"
+stock <- getSymbols(ticker, auto.assign = FALSE, from = Sys.Date()-1, to = Sys.Date())
+current_price <- as.numeric(stock[1, "CENCOSUD.SN.Adjusted"])
 
-# Obtención del precio actual del activo subyacente : 
+# Obtención de la volatilidad del activo subyacente:
+historical_data <- getSymbols(ticker, auto.assign = FALSE, from = Sys.Date()-365, to = Sys.Date())
+daily_returns <- dailyReturn(historical_data[,"CENCOSUD.SN.Adjusted"])
+annualized_volatility <- sd(daily_returns) * sqrt(252)
 
-ticker = "CENCOSUD.SN"
-stock = yf.Ticker(ticker)
-current_price = stock.history(period="1d")["Close"][0]
-
-
-# Obtención de la volatilidad del activo subyacente : 
-
-historical_data = stock.history(period="1y")
-daily_returns = historical_data["Close"].pct_change().dropna()
-annualized_volatility = daily_returns.std() * (252**0.5)
-
-
-print ("")
-print("Valores obtenidos por la libreria son : ")
-print(f"Precio actual de {ticker}: {current_price}")
-print(f"Volatilidad anualizada: {annualized_volatility}")
-
-
-
-
-
+# Imprimir los resultados:
+cat("\n")
+cat("Valores obtenidos por la librería son:", "\n")
+cat(sprintf("Precio actual de %s: %f", ticker, current_price), "\n")
+cat(sprintf("Volatilidad anualizada: %f", annualized_volatility), "\n")
 ```
 
 ![](Fotos%20hito%202/Captura%20de%20pantalla%202023-10-25%20a%20la(s)%2021.22.43.png){fig-align="center"}
 
 Imagen 1 : Formulación del modelo Black -Scholes
 
-```{python}
-!pip install scipy
-import numpy as np
-from scipy.stats import norm
+```{r}
+# Instala y carga el paquete necesario
+install.packages("stats")
+library(stats)
 
 # Datos de entrada
-K = 1350     # Precio de ejercicio (strike price)
-r = 0.075    # Tasa de interés libre de riesgo
-sigma = 0.23280440380322573 # Volatilidad del activo subyacente
-T = 2     # Tiempo hasta la expiración (en años)
-S0 = 1465.9    # Precio actual del activo subyacente
+K <- 1350  # Precio de ejercicio (strike price)
+r <- 0.075 # Tasa de interés libre de riesgo
+sigma <- 0.23280440380322573 # Volatilidad del activo subyacente
+T <- 2  # Tiempo hasta la expiración (en años)
+S0 <- 1465.9  # Precio actual del activo subyacente
 
 # Calcula d1 y d2
-d1 = (np.log(S0 / K) + (r + (sigma**2) / 2) * T) / (sigma * np.sqrt(T))
-d2 = d1 - sigma * np.sqrt(T)
+d1 <- (log(S0 / K) + (r + (sigma^2) / 2) * T) / (sigma * sqrt(T))
+d2 <- d1 - sigma * sqrt(T)
 
 # Calcula el precio de la opción call
-call_price = S0 * norm.cdf(d1) - K * np.exp(-r * T) * norm.cdf(d2)
+call_price <- S0 * pnorm(d1) - K * exp(-r * T) * pnorm(d2)
 
-print(f"El precio de la opción call es: {call_price:.2f}")
+# Imprimir el resultado
+cat(sprintf("El precio de la opción call es: %.2f", call_price))
 
 ```
 
@@ -409,7 +404,7 @@ De acuerdo a la información provista anteriormente, y los resultados relacionad
 
 De acuerdo al caso de administración de efectivo de Braam Industries presente en el libro de ROSS, se procedió a resolver este, en base a los datos del activo financiero Banco de Chile. Para esto, fue necesario comprender y determinar ciertos valores que se observan en la imagen del archivo excel que se presenta a continuación.
 
-![](Fotos hito 2/Captura de pantalla 2023-10-26 a la(s) 19.43.53.png){fig-align="center"}
+![](Fotos%20hito%202/Captura%20de%20pantalla%202023-10-26%20a%20la(s)%2019.43.53.png){fig-align="center"}
 
 Imagen 4 : Resolución problema en excel
 
