@@ -203,6 +203,8 @@ Imagen 5: Variación precio de la acción Cencosud
 
 Imagen 6: Variación precio de la acción Falabella
 
+Cabe destacar que la información presentada anteriormente fue obtenida de la página (finance.yahoo.com) la cual permite analizar ciertas variables con respecto a activos financieros. En este caso en particular se presentó en la imagen 5 y la imagen 6, la variación que ha tenido el precio de la acción del activo estudiado Cencosud para luego comparar el comportamiento de la acción de Falabella debido a que ambas empresas se encuentran en el mismo rubro. Para este estudio no fue posible encontrar el valor de un derivado en particular debido a que el mercado Chileno de derivados es pequeño y no se encontraron valores para realizar una comparación válida. Debido a lo mencionado anteriormente, se procedió a analizar como mencioné, el valor de la acción de ambas compañías debido a que los derivados si es que existiecen, se comportarían de manera similar en ambas empresas. Esto quiere decir que si el precio de la acción tiende a subir, el valor del derivado también lo hará, esto es análogo para el caso contrario.
+
 ### Reporte grupal
 
 En relación a los activos considerados por el grupo, se debe tomar la decisión de cómo distribuir los porcentajes de cada uno de ellos, con el fin de determinar un portafolio de inversión. Este último se creará en base a ciertos criterios que se comentarán a continuación, con el fin de maximizar los retornos manteniendo la exposición al riesgo lo más controlado posible.
